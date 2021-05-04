@@ -13,3 +13,11 @@
     cursor: pointer;
     user-select: none;
 }
+
+.flash-card.front {
+    background-color: seagreen;
+}
+
+.flash-card.back {
+    background-color: slategrey;
+}
