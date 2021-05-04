@@ -1,28 +1,59 @@
-import React from 'react';
+import React, { Component } from 'react';
 import './styles.css';
 import Card from './Card';
+import axios from 'axios';
 
-// function Card(props) {
-//     const [text, setText] = React.useState(props.frontSide)
-//     function handleClick() {
-//         setText(props.backSide);
-//     }
-//     return (
-//         <div className="flash-card" onClick={handleClick}>
-//             {text}
-//         </div>
-//     );
-// }
+
+class App extends Component {
+    constructor() {
+        super()
+
+        this.getAllFlashcards = this.getAllFlashcards.bind(this)
+    }
+
+    state = {
+        flashcards: [],
+        dataReady: false
+    }
+
+    componentDidMount(){
+       this.getAllFlashcards();
+    }
+
+    async getAllFlashcards(){
+        let response = await axios.get('http://127.0.0.1:8000/')
+        this.setState({
+            flashcards: response.data,
+            dataReady: true
+        });
+        console.log(this.state.flashcards)
+    }
+
+    async addFlashcard(flashcardId){
+        await axios.post('http://127.0.0.1:8000/flashcards/+/');
+        this.getAllFlashcards();
+    }
     
-
-export default function App() {
-    return (
-        <div className="App">
-            <h1>devCodeCampFlashcards</h1>
-            <h2>Click on a card for the answer!</h2>
-            <Card frontSide='Inside which HTML element do we put the JavaScript?' backSide='Script' />
-            <Card />
-            <Card />
-        </div>
-    );
+    render() {
+        if(this.state.dataReady){
+            return(
+                <div className="App">
+                <h1>devCodeCampFlashcards</h1>
+                <h2>Click on a card for the answer!</h2>
+                <div>
+                    {this.state.flashcards.map(function(question){
+                        return  <Card frontSide={question.question} backSide={question.card_number}/>
+                    })}
+                   
+                </div>
+           </div>
+            )
+        }
+        else{
+            return(<div></div>)
+        }
+    }
 }
+
+export default App;
+

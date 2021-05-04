@@ -6,7 +6,7 @@ const rootElement = document.getElementById('root');
 ReactDOM.render(
     <React.StrictMode>
         <App />
-        <div>After the app</div>
+        <div></div>
     </React.StrictMode>,
     rootElement
 )

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 
 export default function Card({ frontSide, backSide }) {
-    const [isFront, changeFace] = useState(true);
+    const [isFront, changeFace] = useState(true);;
     function handleClick() {
         changeFace(oldState => !oldState);
     }
