@@ -42,7 +42,7 @@ class App extends Component {
                 <h2>Click on a card for the answer!</h2>
                 <div>
                     {this.state.flashcards.map(function(question){
-                        return  <Card frontSide={question.question} backSide={question.card_number}/>
+                        return  <Card frontSide={question.question} backSide={question.answer}/>
                     })}
                    
                 </div>
