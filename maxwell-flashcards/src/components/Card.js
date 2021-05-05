@@ -5,12 +5,12 @@ export default function Card({ frontSide, backSide }) {
     function handleClick() {
         changeFace(oldState => !oldState);
     }
-    const text = isFront ? frontSide : backSide;
+    // const text = isFront ? frontSide : backSide;
     const sideClass = isFront ? "front" : "back";
     const classList = `flash-card ${sideClass}`;
     return (
         <div className={classList} onClick={handleClick}>
-            {text}
+            
         </div>
     );
 }

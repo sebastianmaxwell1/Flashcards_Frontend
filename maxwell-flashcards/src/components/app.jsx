@@ -44,7 +44,6 @@ class App extends Component {
                     {this.state.flashcards.map(function(question){
                         return  <Card frontSide={question.question} backSide={question.answer}/>
                     })}
-                   
                 </div>
            </div>
             )
