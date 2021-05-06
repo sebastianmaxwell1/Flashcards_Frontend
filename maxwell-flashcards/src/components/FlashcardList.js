@@ -1,13 +1,12 @@
 import React from 'react'
+import Flashcard from './Flashcard';
 
 export default function Flashcardlist({ flashcards }) {
     return (
-        <div className="card-grid">
+      <div className="card-grid">
         {flashcards.map(flashcard => {
-           return <Flashcard flashcard-{flashcard} key={}
+          return <Flashcard flashcard={flashcard} key={flashcard.id} />
         })}
-       </div>
-
-       
+      </div> 
     )
 }
