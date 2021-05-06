@@ -1,20 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/app';
+import App from './components/App';
 
-const rootElement = document.getElementById('root');
 ReactDOM.render(
-    <React.StrictMode>
-        <App />
-        <div></div>
+  <React.StrictMode>
+    <App />
     </React.StrictMode>,
-    rootElement
-)
-// import 'bootstrap/dist/css/bootstrap.css';
-
-// const jsxElement = <h1>Flashcard React App</h1>;
-// console.log(jsxElement);
-
-// ReactDOM.render(<App />, document.getElementById('root'));
-
+    document.getElementById('root')
+);
 
