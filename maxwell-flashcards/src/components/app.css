@@ -31,8 +31,9 @@ body {
     margin-bottom: .25rem;
   }
 
+  .button,
   .btn {
-    background-color: hsl(200, 100%, 50%);
+    background-color: hsl(200, 5%, 22%);
     color: white;
     padding: .5em 1em;
     border-radius: .3em;
@@ -41,7 +42,7 @@ body {
   }
 
   .btn:hover {
-    background-color: hsl(200, 100%, 40%);
+    background-color: hsl(200, 5%, 42%);
   }
   
   .card-grid {

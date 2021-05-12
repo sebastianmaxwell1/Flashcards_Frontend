@@ -14,4 +14,4 @@ function Flashcardlist(props) {
 
 export default Flashcardlist; 
 
-// <Flashcard flashcard={props.flashcard[0]} key={flashcard.id} />
+// <Flashcard flashcards={props.flashcard[0]} key={flashcard.id} />
