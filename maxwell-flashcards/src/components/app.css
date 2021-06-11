@@ -1,4 +1,31 @@
-body {
+body{
+  background-color: #C8D0D2;
+}
+.Flashcard{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border-radius: .25rem;
+  box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+  background-color: white;
+  height: 150px;
+  width: 150px;
+}
+
+.Flashcard .front, .card .back{
+  position: absolute;
+  padding: 1rem;
+}
+
+.Flashcard .back{
+  transform: rotateY(180deg);
+}
+
+
+
+
+/* body {
     background-color:grey;
 
 
@@ -91,5 +118,5 @@ body {
 }
 
 .card .back {
-    transform: rotateY(180deg);
-}
+    transform: rotateY(180deg); */
+/* } */

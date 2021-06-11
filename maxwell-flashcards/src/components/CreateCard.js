@@ -1,60 +1,78 @@
-import React from 'react';
-import axios from 'axios';
-import './app.css'
-
-export default class CreateCard extends React.Component {
-  state = {
-    question: '',
-    answer: '',
-  }
+import React, {Component} from 'react';
 
 
-  addItem = item => {
-    axios.post("http://127.0.0.1:8000/admin/flashcards/flashcardfront/add/", item)
-      .then(response => {
-        this.setState({items: response.data});
-      })
-      .catch(error => console.log(error));
-  }
+class CreateCard extends Component {
+    constructor(props) {
+    super(props);
+    this.state = {
+        question: '',
+        answer: '',
+        collection: '',
+    }
 
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
 
-  handleChange = event => {
-    this.setState({ question: event.target.value });
-  }
-
-  handleSubmit = event => {
-    event.preventDefault();
-    this.props.addItem(this.state.item)
-    
-
-    const user = {
-      question: this.state.question,
-      cardNumber: 1,
-      answer: this.state.answer
-    };
-
-    axios.post(`http://127.0.0.1:8000/admin/flashcards/flashcardfront/add/`, user)
-      .then(res => {
-        console.log(res);
-        console.log(res.data);
-      })
-  }
-
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Flashcard Question:
-            <input placeholder='Type question...' type="text" name="question" onChange={this.handleChange} />
-          </label>
-          <label>
-            Flashcard Answer:
-            <input placeholder='Type answer...' type="text" name="answer" onChange={this.handleChange} />
-          </label>
-          <button className= "btn" type="submit">Add Flashcard</button>
-        </form>
-      </div>
-    )
-  }
 }
+
+handleChange(event) {
+    this.setState({
+        [event.target.name]: event.target.value
+    });
+
+}
+
+handleSubmit(event) {
+    event.preventDefault();
+
+    const card = {
+        question: this.state.question,
+        answer: this.state.answer,
+        collection: this.state.collection,
+        
+    }
+    this.props.addNewCard(card);
+    this.setState({
+        question: '',
+        answer: '',
+        collection: '',
+       
+    });
+}
+
+render() {
+    return (
+        <div>
+            <hr />
+            <center className="container-fluid">
+              <h5>Add a Flashcard to a study collection!</h5>
+            </center>
+            <form className="container-fluid" onSubmit={this.handleSubmit}>
+                <div className='col-sm-4'>
+                    <label>Question:</label>
+                    <input className="form-control" type='text' name='question' value={this.state.question}
+                    onChange={this.handleChange} />
+               </div>
+               <div className='col-sm-4'>
+                    <label>Answer:</label>
+                    <input className="form-control" type='text' name='answer' value={this.state.answer}
+                    onChange={this.handleChange} />
+                        </div>
+              <div className='col-sm-4'>
+                    <label>Collection Set: Enter 1-3 </label>
+                    <input className="form-control" type='text' name='collection' value={this.state.collection}
+                    onChange={this.handleChange} />
+                        </div>
+                        <div className='col mt-3'>
+                                <input className="btn-md btn-primary px-5" type='submit' value='Add to Collection' />
+                            </div>
+          </form>
+        </div>
+      )
+    }
+    }
+    
+    export default CreateCard;
+
+
+

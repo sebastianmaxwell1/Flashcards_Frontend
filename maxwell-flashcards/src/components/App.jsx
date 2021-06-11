@@ -1,114 +1,134 @@
-import React, { useState, useEffect, useRef } from 'react';
-import FlashcardList from './FlashcardList'
-import axios from 'axios';
-import CreateCard from './CreateCard';
-import Flashcard from './Flashcard';
+import Collection from './Collection/Collection';
+import Flashcard from './Flashcard/Flashcard';
+import FilteredCards from './FilteredCards';
+import CreateCard from './CreateCard'
+import React, {Component} from 'react';
+import UpdateCard from './UpdateCard';
+import CardTable from './FlashcardTable';
+import axios from 'axios'
+import TitleBar from './Titlebar/TitleBar';
 import './app.css'
 
 
-
-// const api = axios.create({
-//   baseURL:'http://127.0.0.1:8000/'
-// })
-
-// class App extends Component {
-//   constructor() {
-//     super();
-//     api.get('/flashcard').then(res => {
-//       console.log(res.data)
-
-function App() {
-    const [flashcards, setFlashcards] = useState([])
-    const [collections, setCollections] = useState([])
-
-    const categoryEl = useRef()
-    const amountEl = useRef()
-
-    
-
-    useEffect(async () => {
-        let response = await axios.get('http://127.0.0.1:8000/')
-        console.log(response.data)
-        setFlashcards(response.data)
-     }, [])
+class App extends Component {
+  state = {
+      collection: [],
+      card: [],
+      filteredCards: [],
+      answer: true,
+      
+  }
 
 
-     useEffect(async () => {
-        let response = await axios.post(`http://127.0.0.1:8000/admin/flashcards/flashcardfront/`)
-        console.log(response.data)
-        setFlashcards(response.data)
-     }, [])
- 
-     useEffect(() => {
-   
-    }, [])
-  
-    function decodeString(str) {
-      const textArea = document.createElement('textarea')
-      textArea.innerHTML= str
-      return textArea.value
-    }
+componentDidMount(){
+  console.log("component did mount");
+  this.getAllCollections();
+  this.getAllCards();
 
-    function handleSubmit(e) {
-      console.log(amountEl.current.value)
-      console.log(categoryEl.current.value);
-        e.preventDefault()
-        axios
-        .get('http://127.0.0.1:8000/', {
-          params: {
-            amount: amountEl.current.value,
-            category: categoryEl.current.value
-          }
-        })
-        .then(res => {
-          setFlashcards(res.data.results.map((questionItem, index) => {
-            const answer = decodeString(questionItem.correct_answer)
-            const options = [
-              ...questionItem.incorrect_answers.map(a => decodeString(a)),
-              answer
-            ]
-            return {
-              id: `${index}-${Date.now()}`,
-              question: decodeString(questionItem.question),
-              answer: answer,
-              options: options.sort(() => Math.random() - .5)
-            }
-          }))
-        })
-      }
-    
-      return (
-        <>
-          <form className="header" onSubmit={handleSubmit}>
-            <div className="form-group">
-            <div>
-                 <CreateCard />
-            </div>
-            <br></br>
-              <label htmlFor="collections">Collections</label>
-              <select id="collections" ref={categoryEl}>
-                {collections.map(collections => {
-                  return <option value={collections.id} key={collections.id}>{collections.name}</option>
-                })}
-              </select>
-            </div>
-            <div className="form-group">
-              <label htmlFor="amount">Number of Flashcards</label>
-              <input type="number" id="amount" min="1" step="1" defaultValue={1} ref={amountEl} />
-            </div>
-            <div className="form-group">
-              <button className="btn" type="submit">Show Flashcards</button>
-            </div>
-          </form>
-          <div className="container">
-            <FlashcardList flashcards={flashcards} />
-          </div>
-        </>
-    );
+}
+lip(){
+      this.setState({
+          
+          answer: false
+      })    
+}
+flip(){
+      this.setState({
+          
+          answer: true
+      })    
+}
+async getAllCollections(){
+  let response = await axios.get('http://127.0.0.1:8000/');
+  this.setState({
+      collection: response.data
+  })
+}
+async getAllCards(){
+  let response = await axios.get('http://127.0.0.1:8000/');
+  this.setState({
+      card: response.data
+  })
+}
+
+mapCollections(){
+  return this.state.collection.map(collection =>
+      <Collection
+        key={collection.id}
+        collection={collection}
+        filterCollectionById = {(collectionId) => this.filterCollectionById(collectionId)}
+      />
+  )
+}
+
+mapCards(){
+  return this.state.card.map(flashcard =>
+      <Flashcard
+        key={flashcard.id}
+        flashcard={flashcard}
+      />
+  )
 
 }
 
+filterCollectionById(collectionId){
+  
+  let card = this.state.card;
+  
+      let i=0;
+      let filteredCards = this.state.card.filter((card) => {
+          if (this.state.card[i].collection === collectionId){
+              i++
+              return true;    
+      }
+          else{
+              i++
+              return false;
+          }
+      })
+          
+      
+      this.setState({
+          filteredCards: filteredCards
+      })
+  }
+      
+  async addNewCard(card){ 
+      await axios.post('http://127.0.0.1:8000/', card);
+      alert('Flashcard Added to Collection!')
+       this.getAllCards();
+  }
 
-            
+  async updateCard(id ,card){
+      await axios.put('http://127.0.0.1:8000/'+id+'/', card);
+      alert('Flashcard upgraded in Collection!')
+      
+  }
 
+render(){
+  return(
+    
+      <div>
+      <TitleBar />
+      <CreateCard addNewCard={this.addNewCard.bind(this)}/>
+  
+      
+
+       <CardTable 
+          mapCollections={() => this.mapCollections()} 
+          card={this.state.card}
+      />
+      <FilteredCards
+          filteredCards={this.state.filteredCards}
+          lip={() => this.lip()}
+          flip={() => this.flip()}
+          answer={this.state.answer}
+          />
+      
+      <UpdateCard updateCard={this.updateCard.bind(this)}/> */
+      </div>
+  ); 
+}
+}
 export default App;
+

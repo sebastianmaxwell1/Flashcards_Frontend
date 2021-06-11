@@ -1,0 +1,29 @@
+.titleBar-nav {
+  text-align: center;
+}
+
+
+/* div{
+  background-color: rgb(155, 147, 147);
+  
+} */
+
+
+h1 {
+  padding-bottom: 0.5em;
+  padding-left:3rem;
+  color: rgb(103, 87, 141);
+  text-align: center;
+  background-color: lightgray;
+  width: auto;
+  
+}
+.col mt-3 {
+  color: rgb(103, 87, 141);
+}
+
+
+.col, .text-align {
+  text-align:center;
+}
+
